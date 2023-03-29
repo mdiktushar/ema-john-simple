@@ -4,9 +4,14 @@ import "./Cart.css";
 const Cart = (props) => {
   let totalPrice = 0;
   let totalShipping = 0;
+  let quantity = 0;
+
   for (const cart of props.cart) {
-    totalPrice += cart.price;
-    totalShipping += cart.shipping;
+    // const count = cart.quantity || 1;
+    const count = cart.quantity;
+    totalPrice += cart.price * count;
+    totalShipping += cart.shipping * count;
+    quantity = quantity += count;
   }
   const tax = (totalPrice * 15) / 100;
   const grandTotal = totalPrice + totalShipping + tax;
@@ -14,7 +19,7 @@ const Cart = (props) => {
   return (
     <div className="Cart">
       <h4>Order Summary</h4>
-      <p>Selected Items: {props.cart.length} </p>
+      <p>Selected Items: {quantity} </p>
       <p>Total Price: {totalPrice}$</p>
       <p>Total Shipping: {totalShipping}</p>
       <p>Tax: {tax}$</p>
