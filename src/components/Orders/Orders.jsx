@@ -1,24 +1,36 @@
-import React from 'react';
-import Cart from '../shop/Cart/Cart';
-import { useLoaderData } from 'react-router-dom';
-import Item from './Item/Item';
-import './Orders.css'
+import React, { useState } from "react";
+import Cart from "../shop/Cart/Cart";
+import { useLoaderData } from "react-router-dom";
+import Item from "./Item/Item";
+import "./Orders.css";
+import { removeFromDb } from "../../utilities/fakedb";
 
 const Orders = () => {
-    const cart = useLoaderData();
-    console.log(cart)
-    return (
-        <div className='shop-container'>
-            <div className='review-container'>
-                {
-                    cart.map(item => <Item key={item.id} item={item} />)
-                }
-            </div>
-            <div className='cart-container'>
-                <Cart cart={cart} />
-            </div>
-        </div>
-    );
+  const savedCart = useLoaderData();
+  const [cart, setCart] = useState(savedCart);
+
+  const removeFromCartHandler = (id) => {
+    const remaining = cart.filter((product) => product.id !== id);
+    setCart(remaining);
+    removeFromDb(id);
+  };
+
+  return (
+    <div className="shop-container">
+      <div className="review-container">
+        {cart.map((item) => (
+          <Item
+            key={item.id}
+            item={item}
+            removeFromCartHandler={removeFromCartHandler}
+          />
+        ))}
+      </div>
+      <div className="cart-container">
+        <Cart cart={cart} />
+      </div>
+    </div>
+  );
 };
 
 export default Orders;
