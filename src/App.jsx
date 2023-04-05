@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
-import Header from './assets/components/header/header'
-import Shop from './assets/components/shop/shop'
+import Header from './components/header/header'
+import Shop from './components/shop/shop'
 
 function App() {
   const [count, setCount] = useState(0)
