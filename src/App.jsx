@@ -1,17 +1,17 @@
-import { useState } from 'react'
-import './App.css'
-import Header from './components/header/header'
-import Shop from './components/shop/shop'
+import { useState } from "react";
+import "./App.css";
+import Header from "./components/Layout/Header/header";
+import Shop from "./components/shop/shop";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <div className="App">
-      <Header/>
-      <Shop/>
+      <Header />
+      <Shop />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
