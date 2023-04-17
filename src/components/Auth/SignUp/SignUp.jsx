@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./SignUp.css";
 import { Link } from "react-router-dom";
 import isEmail from "validator/lib/isEmail";
-const SignUp = () => {
+import { AuthContext } from "../../Providers/AuthProvider";
 
-    const [error, setError] = useState('')
+const SignUp = () => {
+  const [error, setError] = useState("");
+  const { createUser } = useContext(AuthContext);
 
   const singUpHandler = (event) => {
     event.preventDefault();
@@ -13,16 +15,29 @@ const SignUp = () => {
     const email = form.email.value;
     const password = form.password.value;
     const confirm_password = form.confirm_password.value;
-
-    if(!isEmail(email)) {
-        setError('Email is not valid');
-        return
+    setError("");
+    if (!isEmail(email)) {
+      setError("Email is not valid");
+      return;
     }
-    if(password !== confirm_password) {
-        setError('Password did\'t match');
-        return
+    if (password !== confirm_password) {
+      setError("Password did't match");
+      return;
     }
 
+    createUser(email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setError(errorMessage);
+        // ..
+      });
   };
 
   return (
